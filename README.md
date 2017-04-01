@@ -11,4 +11,4 @@ this application is an MQTT gateway for Viessmann heaters :
 
 ## Cayenne dashboard
 
-<img src="./docs/cayenne-dashboard-viessmann-heater.png" alt="Cayenne Dashboard" width=250 />
+<img src="./docs/cayenne-dashboard-viessmann-heater.png" alt="Cayenne Dashboard" width=450 />
