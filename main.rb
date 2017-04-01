@@ -65,7 +65,7 @@ end
 # update PID file
 file=sprintf("%svar/pid/%s.pid", @config[:global][:dir], File.basename($0.gsub('.rb', '')))
 @config[:global][:pid_file]=file
-File.write(file, Process.pid)
+File.write(file, sprintf("%d\n",Process.pid))
 
 # auto-delete pid file at exit
 at_exit do
