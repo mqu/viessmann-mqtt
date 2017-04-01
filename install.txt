@@ -15,4 +15,15 @@ password_file /etc/mosquitto/passwd
 EOF
 service mosquitto restart
 
+cd $HOME
+git clone https://github.com/mqu/viessmann-mqtt/
+cd viessmann-mqtt
+chmod +x viessmann-mqtt
 
+./viessmann-mqtt sysinstall
+./viessmann-mqtt install
+./viessmann-mqtt init
+./viessmann-mqtt start
+./viessmann-mqtt status
+./viessmann-mqtt stop
+./viessmann-mqtt restart
