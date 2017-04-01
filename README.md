@@ -12,3 +12,16 @@ this application is an MQTT gateway for Viessmann heaters :
 ## Cayenne dashboard
 
 <img src="./docs/cayenne-dashboard-viessmann-heater.png" alt="Cayenne Dashboard" width=450 />
+
+## install
+
+
+## usage
+
+all operations are done with viessmann-mqtt bash script vrapper :
+
+
+## configuration
+
+all parameters are centralised in etc/viessmann-mqtt.yaml ; if you plan to commit some change, you may copy this file to $HOME/.config to avoid publish your private passords.
+
