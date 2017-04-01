@@ -1,0 +1,110 @@
+links :
+
+metrics visualisation tools
+time series visualisation monitoring tools
+
+- http://pdacontrolen.com/esp8266-grafana-influxdb-node-red-arduino-mqtt/
+- http://air.imag.fr/index.php/Developing_IoT_Mashups_with_Docker,_MQTT,_Node-RED,_InfluxDB,_Grafana
+
+- http://docs.influxdata.com/ : chronograph, telegraph, influx-db
+- https://www.youtube.com/watch?v=WxUTYzxIDns : raspberryPI + node-red + MQTT
+
+rasp + node-red :
+- http://www.projetsdiy.fr/node-red-decouverte-sur-raspberry-pi-3-ou-2/#.WLE3W1dlCHs
+
+
+influx-db
+https://github.com/mark-rushakoff/awesome-influxdb
+
+
+Consuming data from InfluxDB
+Dashboards and visualization
+
+    Chronograf - Official InfluxDB data visualization tool
+    facette -  https://facette.io/ - go - Time series data visualization and graphing software
+    FluxDash - Terminal based InfluxDB dashboard
+    grafana - Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB
+    ostent - collects and displays system metrics and optionally 
+              relays to Graphite and/or InfluxDB - https://github.com/ostrost/ostent
+
+	prometheus - https://prometheus.io/docs/introduction/comparison/
+
+
+Crouton IOT Dashboard
+	- http://crouton.mybluemix.net/
+	- 
+	
+git clone https://github.com/edfungus/Crouton.git
+npm install
+grunt
+
+
+ruby + grafite-carbon : https://github.com/kontera-technologies/graphite-api
+
+mqtt + ruby + influxdb + graph
+ - https://gist.github.com/vigevenoj/d0944d83abbf231ad642
+ 
+
+ruby+ influxdb + grafana + docker
+http://davidanguita.name/articles/simple-data-visualization-stack-with-docker-influxdb-and-grafana/
+
+collectd +influxdb + grafana
+- https://blog.cpy.re/monitoring-avec-collectd-influxdb-et-grafana/
+- http://www.vishalbiyani.com/graphing-performance-with-collectd-influxdb-grafana/
+- https://yann.me/monitoring-de-serveur-avec-collectd-influxdb-et-grafana/
+
+influxdb + rasp + grafana
+http://engineer.john-whittington.co.uk/2016/11/raspberry-pi-data-logger-influxdb-grafana/
+
+# influxdb + grafana + telegraph
+# Telegraf is an agent written in Go for collecting, processing, aggregating, and writing metrics.
+https://www.guillaume-leduc.fr/monitoring-de-votre-serveur-avec-telegraf-influxdb-et-grafana.html
+
+# grafana + graphite
+http://www.dburkland.com/how-to-setup-grafana-with-graphite-and-create-basic-dashboards/
+
+# telegraph vs collectd
+https://www.wavefront.com/collectd-vs-telegraf-comparing-metric-collection-agents/
+
+# graphite, grafana, collectd, telegraf, influxdb, 
+https://www.reddit.com/r/sysadmin/comments/4k296j/modern_monitoring_tools/
+
+# grafana + telegraph + snmp
+https://www.dev-eth0.de/blog/2016/12/06/grafana_snmp.html
+
+
+# collectors
+- http://riemann.io/concepts.html -> graphite
+- https://github.com/CryptonZylog/carbonator (windows) -> graphite
+- collectd -> influx -> grafana
+- http://bosun.org/scollector/ (windows, linux, mac) -> openTSDB
+- telegraf -> influxdb - https://www.influxdata.com/announcing-telegraf-a-metrics-collector-for-influxdb/
+- Diamond (python) -> graphite - http://diamond.readthedocs.io/
+
+# others : http://blog.takipi.com/statsd-vs-collectd-vs-fluentd-and-other-daemons-you-should-know/
+# https://wooster.checkmy.ws/2015/06/collectd-alternatives/
+
+# database :
+- openTSDB : 
+- influxdb,
+- rrdtools
+  - links : https://github.com/mark-rushakoff/awesome-influxdb
+- graphite -> grafana
+
+# visu - dashboards
+- grafana
+- 
+
+
+all-in-one:
+- https://prometheus.io/ - export graphite -> grafana
+
+
+#others:
+- https://github.com/influxdata/kapacitor - from influxdb
+
+
+# supervision tout en un
+- openNMS - https://www.opennms.org/en - 
+- http://www.zabbix.com/functionality.php
+- nagios (python) - graphios -> graphite -> grafana - https://github.com/shawn-sterling/graphios

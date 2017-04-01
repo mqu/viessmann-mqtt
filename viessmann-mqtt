@@ -1,0 +1,141 @@
+#!/bin/bash
+
+dir=$(dirname `realpath $0`)
+
+bin=$dir/bin
+log=$dir/log
+etc=$dir/etc
+src=$dir/src
+db=$dir/var/lib/viessmann.sqlite
+pid_dir=$dir/var/pid
+
+# db=$(./get-config.rb global/sqlite/db) 
+# pid_dir==$(./get-config.rb global/var/pid) 
+
+
+
+do_init(){
+	[ ! -d $log ] && mkdir -p $log $etc $pid_dir
+}
+
+do_start() {
+	[ -d $etc ] || do_init
+
+	cd $src
+
+	# run vitalk daemon connected to viessman heater via IR Led
+	$bin/vitalk -t /dev/ttyUSB* >> $log/vitalk.log 2>&1 &
+	echo $! > $pid_dir/vitalk.pid
+	sleep 2
+
+	# read periodicaly data from vitalk daemon and publish to mqtt server
+	ruby $src/viessmann-mqtt-gateway.rb >> $log/viessmann-mqtt-gateway.log 2>&1 &
+
+	# subscribe to some MQTT message and transfer actions and settings to vitalk
+	ruby $src/viessmann-mqtt-sub.rb >> $log/viessmann-mqtt-sub.log 2>&1 &
+
+	# usb monitoring service : 
+	ruby $src/monitor-usb-device.rb $0 >> $log/monitor-usb-device.log 2>&1 &
+
+	# in a fast loop get power from vitalk daemon, make average on 1 mn and publish to MQTT bus
+	ruby $src/viessmann-power-sqlite.rb >> $log/viessmann-power-sqlite.log 2>&1 &
+	
+	(
+		while true; do
+			ruby $src/viessmann-mqtt-sub-cayenne-gw.rb >> $log/viessmann-mqtt-sub-cayenne-gw.log
+			echo "retarting " `date` >> $log/viessmann-mqtt-sub-cayenne-gw.log
+			sleep 60
+		done
+	)&
+}
+
+do_stop() {
+	
+	for pid in `cat $pid_dir/*.pid` ; do
+		echo $pid
+		kill $pid
+	done
+	
+	rm -f $pid_dir/*.pid
+}
+
+do_stop() {
+	
+	for pid in `cat $pid_dir/*.pid` ; do
+		echo $pid
+		kill $pid
+	done
+	rm -f $pid_dir/*.pid
+}
+
+do_restart() {
+	do_stop
+	do_start
+}
+
+do_status() {
+	ps -aef | egrep 'ruby|vitalk' | grep -v 'grep -E'
+}
+
+do_sys_install() {	
+	apt-get install sqlite3 ruby ruby-sqlite3
+	gem install mqtt json
+}
+
+do_install() {
+	
+	if [ ! -f $bin/vitalk ] ; then
+		mkdir -p $dir/tmp
+		cd $dir/tmp
+		git clone https://github.com/mqu/vitalk
+		cd vitalk
+		make
+		cp vitalk $bin
+
+	fi
+	
+	if [ ! -f $db ] ; then
+		cat $dir/etc/sql/viessmann.sqlite | sqlite3 $db
+	fi
+}
+
+do_clean() {
+	rm -fr $dir/log $dir/tmp $dir/bin $db
+	mkdir -p $dir/log $dir/tmp $dir/bin
+}
+
+
+case $1 in
+
+	init)
+		do_init ;;
+
+	start)
+		do_start ;;
+
+	stop)
+		do_stop ;;
+		
+	status)
+		do_status ;;
+
+	force-stop)
+		do_force_stop ;;
+
+	restart)
+		do_restart ;;
+
+	sys-install)
+		do_sys_install ;;
+
+	install)
+		do_install ;;
+
+	clean)
+		do_clean ;;
+		
+	 halt|poweroff|reboot|kexec)
+		echo "systemd shutdown " `date` >> $log/systemd.log
+		do_stop
+		;;
+esac

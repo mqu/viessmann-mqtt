@@ -1,0 +1,7 @@
+BPRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE `power` (
+`power`INTEGER,
+`time`DATETIME
+);
+

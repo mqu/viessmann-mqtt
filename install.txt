@@ -1,0 +1,18 @@
+#!/bin/bash
+
+sudo apt-get install ruby ruby-sqlite3 mosquitto mosquitto-clients
+sudo gem install mqtt
+
+# add user to dialout group
+sudo usermod -aG dialout $(whoami)
+
+sudo mosquitto_passwd -c /etc/mosquitto/passwd user
+
+cat >> /etc/mosquitto/mosquitto.conf << EOF
+allow_anonymous false
+password_file /etc/mosquitto/passwd
+
+EOF
+service mosquitto restart
+
+

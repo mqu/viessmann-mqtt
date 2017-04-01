@@ -1,0 +1,55 @@
+# take care not insert TAB in first column of yaml files
+meta:
+  description:
+    short:		"YAML configuration file for Viessmann/MQTT applications"
+    long:		"...."
+  location:		'read from : $HOME/viessman-mqtt/etc/.config/mqtt.yaml'
+
+ruby:
+  include_path:		.;..;../lib;lib
+
+# vitalk daemon
+:vitalk:
+  :host:		localhost
+  :port:		3083
+  :device:		/dev/ttyUSB*
+
+:device:
+  :type:		heater
+  :power:
+    :max:		19   # max power in KWh
+
+
+# mqtt local server running on my Raspberry PI
+:mqtt:
+  :host:		localhost
+  :port:		1883
+  :user:		some-user
+  :password:	some-password
+
+  # options for MQTT subject
+  :version:		'v1'
+  :location:	'home'
+  :device:
+     :name: 	'viessman'
+     :type: 	'heater'
+
+:global:
+  # dir:		$HOME/viessman-mqtt
+  :dir:			auto
+  :var:
+    :pid:		$dir/var/pid
+  :startup:		$dir/viessmann-mqtt
+  :sqlite:
+    :db:		$dir/var/lib/viessmann.sqlite
+
+
+# Cayenne MQTT server - http://cayenne.mydevices.com/
+:cayenne:
+  :enable:		true  
+  :host:		mqtt.mydevices.com
+  :port:		1883
+  :user:		xxxxxxx-e40d-11e6-a446-yyyyyyyyyyyyy
+  :password:	xxxxxxxxxf58df3ec97700711cd6a6yyyyyy
+  :id:			xxxxxxxx-f377-11e6-baaf-yyyyyyyyyyyy
+
