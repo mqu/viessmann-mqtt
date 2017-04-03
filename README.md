@@ -3,7 +3,7 @@
 this application is an MQTT gateway for Viessmann heaters :
 * is connected to heater with an USB-TTL adaptator
 * vitalk handle serial IO to Viessman heater, based on P300 protocol
-* an MQTT server isused to handle IO from vitalk and Internet dashboard
+* an MQTT server is used to handle IO from vitalk and Internet dashboard
 * an sqlite database is used to store heating power, in percent, every minutes
 
 
