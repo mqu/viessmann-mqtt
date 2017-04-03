@@ -12,8 +12,6 @@ pid_dir=$dir/var/pid
 # db=$(./get-config.rb global/sqlite/db) 
 # pid_dir==$(./get-config.rb global/var/pid) 
 
-
-
 do_init(){
 	[ ! -d $log ] && mkdir -p $log $etc $pid_dir
 }
@@ -42,11 +40,13 @@ do_start() {
 	
 	(
 		while true; do
-			ruby $src/viessmann-mqtt-sub-cayenne-gw.rb >> $log/viessmann-mqtt-sub-cayenne-gw.log
+			ruby $src/viessmann-mqtt-sub-cayenne-gw.rb >> $log/viessmann-mqtt-sub-cayenne-gw.log 2>&1
 			echo "retarting " `date` >> $log/viessmann-mqtt-sub-cayenne-gw.log
 			sleep 60
 		done
 	)&
+	
+	echo "$?" > $pid_dir/viessmann-mqtt-sub-cayenne-bash-wrapper.pid
 }
 
 do_stop() {
