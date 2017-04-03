@@ -60,7 +60,11 @@ all operations are done with viessmann-mqtt bash script vrapper :
 
 <img src="https://raw.githubusercontent.com/mqu/viessmann-mqtt/master/docs/viessmann-mqtt-architecture.png" alt="Android Dashboard" width=450 />
 
-* 1 : viessmann-mqtt-gateway.rb handle IO from vitalk and publish data to MQTT software bus
-* 2 : viessmann-mqtt-sub.rb handle publish to MQTT server and send commands to vitalk and heater
+* 1 : `viessmann-mqtt-gateway.rb` handle IO from vitalk and publish data to MQTT software bus
+* 2 : `viessmann-mqtt-sub.rb` handle publish to MQTT server and send commands to vitalk and heater
+* 3 : `viessmann-power-sqlite.rb` store power heater every minutes in sqlite database
+* 4 : request from Internet clients (Cayenne, Mqtt-Dashboard)
+* 5 : `viessmann-mqtt-sub-cayenne-gw.rb` receive publish commands
+
 
 
