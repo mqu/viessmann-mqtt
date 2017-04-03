@@ -16,12 +16,37 @@ this application is an MQTT gateway for Viessmann heaters :
 
 ## install
 
-to be done
+    sudo apt-get install ruby ruby-sqlite3 mosquitto mosquitto-clients
+    sudo gem install mqtt
+    
+    # add user to dialout group
+    sudo usermod -aG dialout $(whoami)
+    
+    sudo mosquitto_passwd -c /etc/mosquitto/passwd user
+    
+    cat >> /etc/mosquitto/mosquitto.conf << EOF
+    allow_anonymous false
+    password_file /etc/mosquitto/passwd
+    
+    EOF
+    service mosquitto restart
+    
+    cd $HOME
+    git clone https://github.com/mqu/viessmann-mqtt/
+    cd viessmann-mqtt
+
 
 ## usage
 
 all operations are done with viessmann-mqtt bash script vrapper :
-
+    
+    ./viessmann-mqtt sysinstall  # install packages : ruby, sqlite, gems
+    ./viessmann-mqtt install     # download and install vitalk (not mandatory if running on raspbian : vitalk binary is given in package) 
+    ./viessmann-mqtt init        # create mandatory directories
+    ./viessmann-mqtt start
+    ./viessmann-mqtt status
+    ./viessmann-mqtt stop
+    ./viessmann-mqtt restart
 
 ## configuration
 
