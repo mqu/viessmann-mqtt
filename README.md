@@ -2,8 +2,10 @@
 
 this application is an MQTT gateway for Viessmann heaters :
 * is connected to heater with an USB-TTL adaptator
-* a modified version of vitalk is used (https://github.com/mqu/vitalk) translated into english with some enhancements
-* 
+* vitalk handle serial IO to Viessman heater, based on P300 protocol
+* and MQTT server isused to handle IO from vitalk and Internet dashboard
+* and sqlite database is used to store heating power, in percent, every minutes
+
 
 ## Dashboards
 ### Android MQTT Dashboard application
@@ -52,4 +54,11 @@ all operations are done with viessmann-mqtt bash script vrapper :
 
 * all parameters are centralised in etc/viessmann-mqtt.yaml ; 
 * if you plan to commit some change, you may copy this file to $HOME/.config to avoid publish your private passords.
+
+
+## some details 
+
+* viessmann-mqtt-gateway.rb handle IO from vitalk and publish data to MQTT software bus
+* viessmann-mqtt-sub.rb handle publish to MQTT server and send commands to vitalk and heater
+
 
