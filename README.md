@@ -50,5 +50,6 @@ all operations are done with viessmann-mqtt bash script vrapper :
 
 ## configuration
 
-all parameters are centralised in etc/viessmann-mqtt.yaml ; if you plan to commit some change, you may copy this file to $HOME/.config to avoid publish your private passords.
+* all parameters are centralised in etc/viessmann-mqtt.yaml ; 
+* if you plan to commit some change, you may copy this file to $HOME/.config to avoid publish your private passords.
 
