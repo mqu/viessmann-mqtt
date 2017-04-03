@@ -15,4 +15,15 @@ password_file /etc/mosquitto/passwd
 EOF
 service mosquitto restart
 
+cd $HOME
+git clone https://github.com/mqu/viessmann-mqtt/
+cd viessmann-mqtt
+chmod +x viessmann-mqtt
 
+./viessmann-mqtt sysinstall  # install packages : ruby, sqlite, gems
+./viessmann-mqtt install     # download and install vitalk (not mandatory if running on raspbian : vitalk binary is given in package) 
+./viessmann-mqtt init        # create mandatory directories
+./viessmann-mqtt start
+./viessmann-mqtt status
+./viessmann-mqtt stop
+./viessmann-mqtt restart
