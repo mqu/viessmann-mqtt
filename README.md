@@ -58,7 +58,7 @@ all operations are done with viessmann-mqtt bash script vrapper :
 
 ## architecture
 
-<img src="./docs/architecture.png" alt="Android Dashboard" width=450 />
+<img src="./docs/docs/viessmann-mqtt-architecture.png" alt="Android Dashboard" width=450 />
 
 * 1 : viessmann-mqtt-gateway.rb handle IO from vitalk and publish data to MQTT software bus
 * 2 : viessmann-mqtt-sub.rb handle publish to MQTT server and send commands to vitalk and heater
