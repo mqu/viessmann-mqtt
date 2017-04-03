@@ -66,5 +66,9 @@ all operations are done with viessmann-mqtt bash script vrapper :
 * 4 : request from Internet clients (Cayenne, Mqtt-Dashboard)
 * 5 : `viessmann-mqtt-sub-cayenne-gw.rb` receive publish commands
 
+misc :
+
+* some time, USB device get disconnected from linux kernel : `monitor-usb-device.rb` will monitor thos disconnexions and restart every tasks.
+
 
 
