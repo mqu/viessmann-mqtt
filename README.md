@@ -63,8 +63,8 @@ all operations are done with viessmann-mqtt bash script vrapper :
 * 1 : `viessmann-mqtt-gateway.rb` handle IO from vitalk and publish data to MQTT software bus
 * 2 : `viessmann-mqtt-sub.rb` handle publish to MQTT server and send commands to vitalk and heater
 * 3 : `viessmann-power-sqlite.rb` store power heater every minutes in sqlite database
-* 4 : request from Internet clients (Cayenne, Mqtt-Dashboard)
-* 5 : `viessmann-mqtt-sub-cayenne-gw.rb` receive publish commands
+* 4 : `viessmann-mqtt-sub-cayenne-gw.rb` receive publish commands
+* 5 : request from Internet clients (Cayenne, Mqtt-Dashboard)
 
 misc :
 
