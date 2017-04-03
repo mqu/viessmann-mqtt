@@ -56,9 +56,11 @@ all operations are done with viessmann-mqtt bash script vrapper :
 * if you plan to commit some change, you may copy this file to $HOME/.config to avoid publish your private passords.
 
 
-## some details 
+## architecture
 
-* viessmann-mqtt-gateway.rb handle IO from vitalk and publish data to MQTT software bus
-* viessmann-mqtt-sub.rb handle publish to MQTT server and send commands to vitalk and heater
+<img src="./docs/architecture.png" alt="Android Dashboard" width=450 />
+
+* 1 : viessmann-mqtt-gateway.rb handle IO from vitalk and publish data to MQTT software bus
+* 2 : viessmann-mqtt-sub.rb handle publish to MQTT server and send commands to vitalk and heater
 
 
