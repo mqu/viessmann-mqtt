@@ -36,7 +36,7 @@ class Addr
 end
 
 
-class ViessmannTcpClient
+class ViessmannRawTcpClient
 
 	def initialize
 		@v=ViessmannSockReader.new
@@ -47,9 +47,14 @@ class ViessmannTcpClient
 		@v.puts cmd.to_s
 		@v.gets
 	end
-	
-	# rg <addr> <len>         - Raw Get Parameter ; len limited to 8 bytes
+
     # rs <addr> <value>       - Raw Set Parameter by adress (one byte at the time
+	def raw_set value, addr, len, type, mult=1
+		addr = sprintf("0x%04X",addr) if addr.is_a? Fixnum
+		v=self.cmd sprintf("rs %s %s", addr.to_s, len.to_s)
+	end
+
+	# rg <addr> <len>         - Raw Get Parameter ; len limited to 8 bytes
 	def raw_read addr, len, type, mult=1
 		addr = sprintf("0x%04X",addr) if addr.is_a? Fixnum
 		v=self.cmd sprintf("rg %s %s", addr.to_s, len.to_s)
@@ -75,18 +80,22 @@ at_exit do
 	# puts "script exiting ... ; time: " + Time.now.strftime("%d/%m/%Y %H:%M\n")
 end
 
-v=ViessmannTcpClient.new
+v=ViessmannRawTcpClient.new
 
-puts "device-id=#{v.raw_read 0x00F8, 2, :addr}"
+# puts "device-id=#{v.raw_read 0x00F8, 2, :addr}"
+# 
+# puts "outdoor_temp=#{v.raw_read 0x0800, 2, :short, 10}"
+# puts "indoor_temp=#{v.raw_read 0x0896, 2, :short, 10}"
+# 
+# puts "boiler_temp=#{v.raw_read 0x0802, 2, :short, 10}"
+# puts "norm_room_temp=#{v.raw_read 0x2306, 1, :byte, 1}"
+# puts "reduce_room_temp=#{v.raw_read 0x2307, 1, :byte, 1}"
+# puts "starts=#{v.raw_read 0x088a, 4, :int4, nil}"
+# puts "power=#{v.raw_read 0xa38f, 1, :percent, 2}"
 
-puts "outdoor_temp=#{v.raw_read 0x0800, 2, :short, 10}"
-puts "indoor_temp=#{v.raw_read 0x0896, 2, :short, 10}"
-
-puts "boiler_temp=#{v.raw_read 0x0802, 2, :short, 10}"
-puts "norm_room_temp=#{v.raw_read 0x2306, 1, :byte, 1}"
-puts "reduce_room_temp=#{v.raw_read 0x2307, 1, :byte, 1}"
-puts "starts=#{v.raw_read 0x088a, 4, :int4, nil}"
-puts "power=#{v.raw_read 0xa38f, 1, :percent, 2}"
+puts "mode=#{v.raw_read 0x2323, 1, :byte}"
+puts "party_mode=#{v.raw_read 0x2303, 1, :byte}"
+puts "eco_mode=#{v.raw_read 0x2302, 1, :byte}"
 
 exit 0
 
@@ -121,7 +130,7 @@ exit 0
 	## :circulation_pump    => Command.new(0x0846, 1,  nil,  '',  :ro, :byte, 'circulation_pump',     'circulation pump'),
 	## :mixer_position      => Command.new(0x254C, 1,    2,  '%', :ro, :byte, 'mixer_position',      'mixer position'),
 
-	#:mode                => Command.new(0x2301, 1, nil, '',   :rw, :enum, 'mode',           'Operating mode', @enums[:mode]),
+	#:mode                => Command.new(0x2323, 1, nil, '',   :rw, :enum, 'mode',           'Operating mode', @enums[:mode]),
 	#:eco_mode			 => Command.new(0x2302, 1, nil, '',   :rw, :bool, 'eco_mode',       'Eco mode (bool)'),
 	#:party_mode			 => Command.new(0x2303, 1, nil, '',   :rw, :bool, 'party_mode',     'Party mode (bool)'),
 

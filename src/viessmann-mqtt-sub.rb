@@ -56,7 +56,7 @@ client.connect() do |mqtt|
    while true  do
 
 	mqtt.get do |topic,message|
-	
+		puts "topic=#{topic}/#{message}"
 		case topic
 		
 		when /temp\/room\/normal/
@@ -69,11 +69,24 @@ client.connect() do |mqtt|
 
 		when /settings\/eco-mode/
 			puts "setting eco-mode : #{message}"
-			v.set :eco_mode, message.to_i
-
+			if(message.to_i==1)
+				puts "1"
+				v.set :eco_mode, message.to_i				
+				v.set :party_mode, 0				
+			else
+				puts "2"
+				v.set :eco_mode, message.to_i
+			end
 		when /settings\/party-mode/
 			puts "setting party-mode : #{message}"
-			v.set :party_mode, message.to_i
+			if(message.to_i==1)
+				puts "1"
+				v.set :eco_mode, 0				
+				v.set :party_mode, 1				
+			else
+				puts "2"
+				v.set :party_mode, 0
+			end
 
 		when /power\/mode/
 			  # Block is executed for every message received
