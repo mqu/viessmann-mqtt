@@ -70,7 +70,7 @@ all operations are done with viessmann-mqtt bash script wrapper :
 * 2 : `viessmann-mqtt-sub.rb` handle publish to MQTT server and send commands to vitalk and heater
 * 3 : `viessmann-power-sqlite.rb` store power heater every minutes in sqlite database
 * 4 : `viessmann-mqtt-sub-cayenne-gw.rb` receive publish commands
-* 5 : request from Internet clients (Cayenne, Mqtt-Dashboard)
+* 5 : requests from Internet clients (Cayenne, Mqtt-Dashboard or any)
 
 misc :
 
@@ -80,7 +80,7 @@ misc :
 
 * complete raw-read wrapper (`src/extra/viessmann-tcpclient-raw.rb`)
 * experiment Wireless interface based on ESP8266
-* 
+* grafana + influxdb monitoring
 
 ## links
 * vitalk : https://github.com/mqu/vitalk : english port and raw read and put
