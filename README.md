@@ -76,8 +76,13 @@ misc :
 
 * some time, USB device get disconnected from linux kernel : `monitor-usb-device.rb` will monitor thoses disconnections and restart every tasks with `viessmann-mqtt` bash script wrapper.
 
+## TODO
 
-## links :
+* complete raw-read wrapper (`src/extra/viessmann-tcpclient-raw.rb`)
+* experiment Wireless interface based on ESP8266
+* 
+
+## links
 * vitalk : https://github.com/mqu/vitalk : english port and raw read and put
 * Viessmann open-source community : http://openv.wikispaces.com/ with :
  * Optolink TTL-USB interface : http://openv.wikispaces.com/Bauanleitung+3.3V+TTL 
