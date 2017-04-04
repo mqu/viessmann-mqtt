@@ -39,7 +39,7 @@ this application is an MQTT gateway for Viessmann heaters :
 
 ## usage
 
-all operations are done with viessmann-mqtt bash script vrapper :
+all operations are done with viessmann-mqtt bash script wrapper :
     
     # install packages : ruby, sqlite, gems
     viessmann-mqtt sysinstall
