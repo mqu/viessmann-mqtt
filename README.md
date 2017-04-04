@@ -1,11 +1,10 @@
 # viessmann-mqtt
 
 this application is an MQTT gateway for Viessmann heaters :
-* is connected to heater with an USB-TTL adaptator
-* vitalk handle serial IO to Viessman heater, based on P300 protocol
+* that is connected to heater with an USB-TTL adaptator
+* vitalk daemon handle serial IO to Viessman heater, based on P300 protocol
 * an MQTT server is used to handle IO from vitalk and Internet dashboard
 * an sqlite database is used to store heating power, in percent, every minutes
-
 
 ## Dashboards
 ### Android MQTT Dashboard application
@@ -56,7 +55,7 @@ all operations are done with viessmann-mqtt bash script vrapper :
 * if you plan to commit some change, you may copy this file to $HOME/.config to avoid publish your private passords.
 * this application can be installed in your HOME directory or any place under your drive : it will try to work and locate scripts and libraries.
 
-## architecture
+## software architecture
 
 <img src="https://raw.githubusercontent.com/mqu/viessmann-mqtt/master/docs/viessmann-mqtt-architecture.png" alt="Android Dashboard" width=650 />
 
@@ -68,7 +67,7 @@ all operations are done with viessmann-mqtt bash script vrapper :
 
 misc :
 
-* some time, USB device get disconnected from linux kernel : `monitor-usb-device.rb` will monitor thos disconnexions and restart every tasks.
+* some time, USB device get disconnected from linux kernel : `monitor-usb-device.rb` will monitor thoses disconnections and restart every tasks with `viessmann-mqtt` bash script wrapper.
 
 
 
