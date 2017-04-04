@@ -1,6 +1,6 @@
 # viessmann-mqtt
 
-this application is an MQTT gateway for Viessmann heaters :
+this application is an MQTT gateway for Viessmann heaters mainly writen in Ruby language :
 * that is connected to heater with an USB-TTL adaptator
 * vitalk daemon handle serial IO to Viessman heater, based on P300 protocol
 * an MQTT server is used to handle IO from vitalk and Internet dashboard
@@ -77,4 +77,9 @@ misc :
 * some time, USB device get disconnected from linux kernel : `monitor-usb-device.rb` will monitor thoses disconnections and restart every tasks with `viessmann-mqtt` bash script wrapper.
 
 
+## links :
+* vitalk : https://github.com/mqu/vitalk : english port and raw read and put
+* Viessmann open-source community : http://openv.wikispaces.com/ with :
+ * Optolink TTL-USB interface : http://openv.wikispaces.com/Bauanleitung+3.3V+TTL 
+ * Wireless interface : http://openv.wikispaces.com/Bauanleitung+ESP8266 
 
