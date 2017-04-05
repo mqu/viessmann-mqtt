@@ -94,8 +94,8 @@ v=ViessmannRawTcpClient.new
 # puts "power=#{v.raw_read 0xa38f, 1, :percent, 2}"
 
 puts "mode=#{v.raw_read 0x2323, 1, :byte}"
-puts "party_mode=#{v.raw_read 0x2303, 1, :byte}"
-puts "eco_mode=#{v.raw_read 0x2302, 1, :byte}"
+puts "party_mode=#{v.raw_read 0x2330, 1, :byte}"
+puts "eco_mode=#{v.raw_read 0x2331, 1, :byte}"
 
 exit 0
 
