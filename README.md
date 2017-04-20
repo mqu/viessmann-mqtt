@@ -42,13 +42,13 @@ this application is an MQTT gateway for Viessmann heaters mainly writen in Ruby 
 all operations are done with viessmann-mqtt bash script wrapper :
     
     # install packages : ruby, sqlite, gems
-    viessmann-mqtt sysinstall
+    ./viessmann-mqtt sys-install
     
-    # download and install vitalk (not mandatory if running on raspbian : vitalk binary is given in package) 
-    viessmann-mqtt install
+    # download and install vitalk (not mandatory if running on raspbian : vitalk binary is given in package)
+    ./viessmann-mqtt install
     
-     # create mandatory directories
-    viessmann-mqtt init
+    # create mandatory directories and database
+    ./viessmann-mqtt init
     
     # start, stop, restart and status
     viessmann-mqtt start
