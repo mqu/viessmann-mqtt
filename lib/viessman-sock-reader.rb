@@ -109,6 +109,10 @@ require 'socket'
 # 07:   valve_setting_text: hot water 
 # 07:           pump_power: 0 %
 
+# TODO : use raw-read and raw-write commands (see extra/viessmann/tcp-client-raw.rb)
+#  - with raw commands, will be able to support anydevice (only need to write commands in ruby language).
+#
+
 # read from vitalk server / deviceid: 0x20cb
 class ViessmannSockReader
 

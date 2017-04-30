@@ -3,6 +3,14 @@
 # viessmann raw read and write test with vitalk daemon.
 # FIXME, FIXME ... WIP.
 
+#
+# ViessmannRawTcpClient::raw_read supported formats
+# - :byte  - 1 byte  (mode, party_mode, eco_mode, ...)
+# - :short - 2 bytes (boiler_temp, ...)
+# - :int4  - 4 bytes (starts)
+# - :addr  - 2 bytes (device-id)
+
+
 libdir="../../lib"
 $LOAD_PATH.unshift libdir
 
