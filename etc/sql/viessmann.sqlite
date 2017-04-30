@@ -1,7 +1,7 @@
-BPRAGMA foreign_keys=OFF;
+PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 CREATE TABLE `power` (
 `power`INTEGER,
-`time`DATETIME
+`time`DATETIME PRIMARY KEY
 );
-
+COMMIT TRANSACTION;
