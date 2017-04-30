@@ -5,11 +5,11 @@
 
 #
 # ViessmannRawTcpClient::raw_read supported formats
-# - :byte  - 1 byte  (mode, party_mode, eco_mode, ...)
-# - :short - 2 bytes (boiler_temp, ...)
-# - :int4  - 4 bytes (starts)
-# - :addr  - 2 bytes (device-id)
-
+# - :byte    - 1 byte  (mode, party_mode, eco_mode, ...)
+# - :short   - 2 bytes (boiler_temp, ...)
+# - :int4    - 4 bytes (starts)
+# - :addr    - 2 bytes (device-id)
+# - :systime - 8 bytes (system time)
 
 libdir="../../lib"
 $LOAD_PATH.unshift libdir
@@ -56,6 +56,7 @@ class ViessmannRawTcpClient
 		@v.gets
 	end
 
+				
     # rs <addr> <value>       - Raw Set Parameter by adress (one byte at the time
 	def raw_set value, addr, len, type, mult=1
 		addr = sprintf("0x%04X",addr) if addr.is_a? Fixnum
@@ -63,7 +64,7 @@ class ViessmannRawTcpClient
 	end
 
 	# rg <addr> <len>         - Raw Get Parameter ; len limited to 8 bytes
-	def raw_read addr, len, type, mult=1
+	def raw_read addr, len, type=nil, mult=1
 		addr = sprintf("0x%04X",addr) if addr.is_a? Fixnum
 		v=self.cmd sprintf("rg %s %s", addr.to_s, len.to_s)
 		v=v.gsub('$','').split(';').collect{|x| x=x.to_i}
@@ -80,6 +81,26 @@ class ViessmannRawTcpClient
 				end
 			when 4
 				return v.reverse.pack("C*").unpack('l>')[0]
+			when 8
+
+				case type
+					when :systime
+						# sample packets :
+						# [ 0x20, 0x15, 0x04, 0x11, 0x06, 0x19, 0x21, 0x26  ]
+						#   0    1    2    3    4    5    6    7
+						# 0,1 = 20.15 -> 2015
+						# 2: month = 4=april
+						# 3: day=11
+						# 4=week day : 0=sunday, 1:monday, ...
+						# 5=hour : 0x19 -> 19h
+						# 6:min  : 0x21 -> 21mn
+						# 7:sec  : 0x26 -> 26 seconds.
+						# see : https://github.com/taupinfada/vcontrold/blob/master/unit.c#L137
+						val=sprintf("%02X/%02X/%02X%02X %02X:%02X:%02X", v[3].ord, v[2].ord, v[0].ord, v[1].ord, v[5].ord, v[6].ord, v[7].ord)
+						return val
+				end
+				
+				return v
 		end
 	end
 end
@@ -99,11 +120,21 @@ v=ViessmannRawTcpClient.new
 # puts "norm_room_temp=#{v.raw_read 0x2306, 1, :byte, 1}"
 # puts "reduce_room_temp=#{v.raw_read 0x2307, 1, :byte, 1}"
 # puts "starts=#{v.raw_read 0x088a, 4, :int4, nil}"
+# puts "runtime=#{v.raw_read 0x08A7, 4, :int4, nil}"
 # puts "power=#{v.raw_read 0xa38f, 1, :percent, 2}"
 
-puts "mode=#{v.raw_read 0x2323, 1, :byte}"
-puts "party_mode=#{v.raw_read 0x2330, 1, :byte}"
-puts "eco_mode=#{v.raw_read 0x2331, 1, :byte}"
+# puts "mode=#{v.raw_read 0x2323, 1, :byte}"
+# puts "party_mode=#{v.raw_read 0x2330, 1, :byte}"
+# puts "eco_mode=#{v.raw_read 0x2331, 1, :byte}"
+
+puts "system_time=#{ v.raw_read 0x088E, 8, :systime}"
+
+
+puts "hollyday_start=#{}"
+pp v.raw_read 0x2309, 8, nil
+
+puts "hollyday_end=#{}"
+pp v.raw_read 0x2311, 8, nil
 
 exit 0
 
