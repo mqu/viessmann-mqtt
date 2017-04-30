@@ -1,0 +1,259 @@
+// sed -e 's#^\(..\) \(.*\).#"\2", //\1#g;s#^\(..\)$#"", //\1#g;' roharray.txt >fehlerliste.h
+char *fehlerliste[] = {
+"Aucune erreur", //00
+"Erreur système", //01
+"Erreur de données Réglages de base ", //02
+"Erreur de configuration", //03
+"", //04
+"Circuit de refroidissement", //05
+"Réfrigérant circuit 2", //06
+"Circuit de refroidissement", //07
+"Réfrigérant circuit 2", //08
+"Compteur d'énergie photovoltaïque ", //09
+"Unité extérieure ", //0A
+"Unité extérieure ", //0B
+"Unité extérieure ", //0C
+"Mode de test. unité extérieure ", //0D
+"Appareil de ventilation ", //0E
+"Effectuer les travaux d'entretien. Régler le codage 24:0 quand entretien fait", //0F
+"Court-circuit sonde extérieure", //10
+"", //11
+"", //12
+"", //13
+"", //14
+"", //15
+"", //16
+"", //17
+"Coupure sonde extérieure", //18
+"", //19
+"", //1A
+"", //1B
+"", //1C
+"", //1D
+"", //1E
+"", //1F
+"Court-circuit sonde de départ installation", //20
+"Court-circuit sonde de température de retour", //21
+"", //22
+"", //23
+"", //24
+"", //25
+"", //26
+"", //27
+"Coupure sonde de départ installation", //28
+"Coupure sonde de température de retour", //29
+"", //2A
+"", //2B
+"", //2C
+"", //2D
+"", //2E
+"", //2F
+"Court-circuit sonde chaudière", //30
+"", //31
+"", //32
+"", //33
+"", //34
+"", //35
+"", //36
+"", //37
+"Coupure sonde chaudière", //38
+"", //39
+"", //3A
+"", //3B
+"", //3C
+"", //3D
+"", //3E
+"", //3F
+"Court-circuit sonde de départcircuit avec vanne mélangeuse M2", //40
+"", //41
+"Capteur de température de départ cassée M2", //42
+"", //43
+"", //44
+"", //45
+"", //46
+"", //47
+"Coupure de la départ circuit avec vanne mélangeuse M2", //48
+"", //49
+"", //4A
+"", //4B
+"", //4C
+"", //4D
+"", //4E
+"", //4F
+"Court-circuit sonde de charge", //50
+"Court-circuit sonde de sortie", //51
+"", //52
+"", //53
+"", //54
+"", //55
+"", //56
+"", //57
+"Coupure sonde de charge", //58
+"Coupure sonde de sortie", //59
+"", //5A
+"", //5B
+"", //5C
+"", //5D
+"", //5E
+"", //5F
+"", //60
+"", //61
+"", //62
+"", //63
+"", //64
+"", //65
+"", //66
+"", //67
+"", //68
+"", //69
+"", //6A
+"", //6B
+"", //6C
+"", //6D
+"", //6E
+"", //6F
+"", //70
+"", //71
+"", //72
+"", //73
+"", //74
+"", //75
+"", //76
+"", //77
+"", //78
+"", //79
+"", //7A
+"", //7B
+"", //7C
+"", //7D
+"", //7E
+"", //7F
+"", //80
+"", //81
+"", //82
+"", //83
+"", //84
+"", //85
+"", //86
+"", //87
+"", //88
+"", //89
+"", //8A
+"", //8B
+"", //8C
+"", //8D
+"", //8E
+"", //8F
+"", //90
+"", //91
+"Solaire : Court-circuit sonde capteurs", //92
+"Solaire : Court-circuit sonde S3", //93
+"Solaire : Court-circuit sonde de charge", //94
+"", //95
+"", //96
+"", //97
+"", //98
+"", //99
+"Solaire : Coupure sonde capteurs", //9A
+"Solaire : Coupure sonde S3", //9B
+"Solaire : Coupure sonde de charge", //9C
+"", //9D
+"", //9E
+"Solaire : défaut régulation", //9F
+"", //A0
+"", //A1
+"", //A2
+"", //A3
+"", //A4
+"", //A5
+"", //A6
+"Module de commande défectueux", //A7
+"", //A8
+"", //A9
+"", //AA
+"", //AB
+"", //AC
+"", //AD
+"", //AE
+"", //AF
+"Court-circuit sonde fumées", //B0
+"Défaut de communication module de commande", //B1
+"", //B2
+"", //B3
+"Défaut interne", //B4
+"Défaut interne", //B5
+"Invalid ID de matériel", //B6
+"Défaut fiche de codage de la chaudière", //B7
+"Coupure sonde fumées", //B8
+"Erreur interne (entrée de données répétition)", //B9
+"Défaut communication de la motorisation vanne mélangeurse M2", //BA
+"", //BB
+"Défaut communication commande à distance Vitotrol circuit A1", //BC
+"Défaut communication commande à distance Vitotrol circuit M2", //BD
+"Codage erroné de la commande à distance Vitotrol", //BE
+"Module de communication LON erroné", //BF
+"", //C0
+"Dispositif de sécurité externe (Chaudière refroidit)", //C1
+"Solaire : défaut communication régulation", //C2
+"", //C3
+"", //C4
+"Défaut communication, pompe interne à vitesse modulée", //C5
+"Défaut communication commande à distance Vitotrol circuit M2", //C6
+"Défaut communication commande à distance Vitotrol circuit A1", //C7
+"", //C8
+"Autosurveillance au niveau du module de contrôle", //C9
+"", //CA
+"", //CB
+"", //CC
+"Défaut communication Vitocom 100 (BUS KM)", //CD
+"Défaut communication extension externe", //CE
+"Défaut communication module de communication LON", //CF
+"", //D0
+"Faute bruleur", //D1
+"", //D2
+"", //D3
+"Limiteur de température de sécurité a déclenché ou message d'erreur mal connecté", //D4
+"", //D5
+"", //D6
+"", //D7
+"", //D8
+"", //D9
+"Court-circuit sonde ambiance chauffage A1", //DA
+"Court-circuit sonde ambiance chauffage M2", //DB
+"", //DC
+"Coupure sonde ambiance chauffage A1", //DD
+"Coupure sonde ambiance chauffage M2", //DE
+"", //DF
+"", //E0
+"", //E1
+"", //E2
+"", //E3
+"Défaut tension alimentation 24 V", //E4
+"Défaut flamme", //E5
+"Conduits fumées bouchées", //E6
+"", //E7
+"", //E8
+"", //E9
+"", //EA
+"", //EB
+"", //EC
+"", //ED
+"", //EE
+"", //EF
+"Défaut interne", //F0
+"Limitateur de fumées éclenché", //F1
+"Limitateur de température déclenché", //F2
+"Le signal de flamme est présent au démarrage du bruleur", //F3
+"Le signal flamme est absent", //F4
+"", //F5
+"", //F6
+"Sonde de pression différentielle HS", //F7
+"Fermeture retardée de la vanne conbustible", //F8
+"Vitesse turbine insuffisante au démarrage bruleur", //F9
+"Arrêt de la turbine non atteint", //FA
+"", //FB
+"", //FC
+"Défaut boitier de contrôle de bruleur ", //FD
+"Perturbation éléctro-magnétiques importantes à proximité ou platine de base défectueuse", //FE
+"Perturbation éléctro-magnétiques importantes à proximité ou défaut interne" //FF
+};
