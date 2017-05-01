@@ -1,0 +1,44 @@
+# viessmann devices specification
+# version 0.1 : format may vari in futur.
+
+# links : 
+#  - https://openv.wikispaces.com/Ger%C3%A4te (devices lists with device-id)
+#  - https://openv.wikispaces.com/Adressen    (devices addresses)
+# 
+# TODO : support multiple device description, or includes.
+
+device:
+  device_id:	0x20CB
+  product_name: fixme
+  reference:	ScotHO1
+  controler:	Vitodens200
+
+enums:
+  mode: [water heating only', 'continuous reduced', 'constant normal', 'heating + hot water', 'heating + hot water', 'Off']
+  switching_valve: ['undefined', 'heating', 'middle position', 'hot water']
+
+# field formats :
+# name: [address, type, multiplier]
+# name: [address, enum-type, enum-name]
+# supported types : :byte, :short, :int4, :percent, :addr, :systime ; todo :enum.
+# multiplier : default 1 ; temperature are expressed in 1/10° ; so we need to correct this.
+
+setting:
+  norm_room_temp:    [0x2306, :byte]
+  reduce_room_temp:  [0x2307, :byte]
+
+  mode:       [0x2323, :enum, :mode]
+  party_mode: [0x2330, :byte]
+  eco_mode:   [0x2331, :byte]
+
+temp:
+  indoor:     [0x0800, :short, 10]
+  outdoor:    [0x0896, :short, 10]
+  boiler:     [0x0802, :short, 10]
+
+info:
+  device_id:  [0x00F8, :addr]
+  starts:     [0x088A, :int4]
+  runtime:    [0x08A7, :int4]
+  power:      [0xA38F, :percent, 2]
+
