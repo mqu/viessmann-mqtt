@@ -14,127 +14,37 @@
 libdir="../../lib"
 $LOAD_PATH.unshift libdir
 
-
 require "pp"
-require 'mqtt'
 
 # my libraries
-require 'stack.rb'
-require 'viessman-sock-reader.rb'
-require 'heater-calc.rb'
-require 'sqlite.rb'
-
-# manipulate adresses values (optolink format)
-class Addr
-
-	# split 16 bits integrer (2 bytes len) as an array of 2 bytes
-	# addr=a1a2 as short -> [ a1, a2 ] as bytes.
-	# ex : 0x00F8 -> [0x00, 0xF8]
-	def self.split addr
-		a1 = (addr & 0xFF00) >> 8
-		a2 = (addr & 0x00FF)
-		return [a1,a2]
-	end
-
-	# FIXME please.
-	# reverse of split
-	def self.unsplit a1, a2
-		return a1*256 + a2
-	end
-end
-
-
-class ViessmannRawTcpClient
-
-	def initialize
-		@v=ViessmannSockReader.new
-	end
-
-	def cmd cmd
-		# puts "cmd : " + cmd
-		@v.puts cmd.to_s
-		@v.gets
-	end
-
-				
-    # rs <addr> <value>       - Raw Set Parameter by adress (one byte at the time
-	def raw_set value, addr, len, type, mult=1
-		addr = sprintf("0x%04X",addr) if addr.is_a? Fixnum
-		v=self.cmd sprintf("rs %s %s", addr.to_s, len.to_s)
-	end
-
-	# rg <addr> <len>         - Raw Get Parameter ; len limited to 8 bytes
-	def raw_read addr, len, type=nil, mult=1
-		addr = sprintf("0x%04X",addr) if addr.is_a? Fixnum
-		v=self.cmd sprintf("rg %s %s", addr.to_s, len.to_s)
-		v=v.gsub('$','').split(';').collect{|x| x=x.to_i}
-
-		case len
-			when 1
-				return v[0].ord*mult
-			when 2
-				case type
-					when :addr
-						"0x"+v.pack("C*").unpack('s>')[0].to_s(16)
-					when :short
-						1.0*v.reverse.pack("C*").unpack('s>')[0]/mult
-				end
-			when 4
-				return v.reverse.pack("C*").unpack('l>')[0]
-			when 8
-
-				case type
-					when :systime
-						# sample packets :
-						# [ 0x20, 0x15, 0x04, 0x11, 0x06, 0x19, 0x21, 0x26  ]
-						#   0    1    2    3    4    5    6    7
-						# 0,1 = 20.15 -> 2015
-						# 2: month = 4=april
-						# 3: day=11
-						# 4=week day : 0=sunday, 1:monday, ...
-						# 5=hour : 0x19 -> 19h
-						# 6:min  : 0x21 -> 21mn
-						# 7:sec  : 0x26 -> 26 seconds.
-						# see : https://github.com/taupinfada/vcontrold/blob/master/unit.c#L137
-						val=sprintf("%02X/%02X/%02X%02X %02X:%02X:%02X", v[3].ord, v[2].ord, v[0].ord, v[1].ord, v[5].ord, v[6].ord, v[7].ord)
-						return val
-				end
-				
-				return v
-		end
-	end
-end
-
-at_exit do
-	# puts "script exiting ... ; time: " + Time.now.strftime("%d/%m/%Y %H:%M\n")
-end
+require 'viessman-raw-read.rb'
 
 v=ViessmannRawTcpClient.new
 
-# puts "device-id=#{v.raw_read 0x00F8, 2, :addr}"
+puts "device_id=#{v.raw_read 0x00F8, :addr}"
+
+puts "outdoor_temp=#{v.raw_read 0x0800, :short, 10}"
+puts "indoor_temp=#{v.raw_read 0x0896, :short, 10}"
+
+puts "boiler_temp=#{v.raw_read 0x0802, :short, 10}"
+puts "norm_room_temp=#{v.raw_read 0x2306, :byte, 1}"
+puts "reduce_room_temp=#{v.raw_read 0x2307, :byte, 1}"
+puts "starts=#{v.raw_read 0x088a, :int4, nil}"
+puts "runtime=#{v.raw_read 0x08A7, :int4, nil}"
+puts "power=#{v.raw_read 0xa38f, :short, 2}"
+
+puts "mode=#{v.raw_read 0x2323, :byte}"
+puts "party_mode=#{v.raw_read 0x2330, :byte}"
+puts "eco_mode=#{v.raw_read 0x2331, :byte}"
+
+puts "system_time=#{ v.raw_read 0x088E, :systime}"
+
+
+# puts "hollyday_start=#{}"
+# pp v.raw_read 0x2309, :raw8
 # 
-# puts "outdoor_temp=#{v.raw_read 0x0800, 2, :short, 10}"
-# puts "indoor_temp=#{v.raw_read 0x0896, 2, :short, 10}"
-# 
-# puts "boiler_temp=#{v.raw_read 0x0802, 2, :short, 10}"
-# puts "norm_room_temp=#{v.raw_read 0x2306, 1, :byte, 1}"
-# puts "reduce_room_temp=#{v.raw_read 0x2307, 1, :byte, 1}"
-# puts "starts=#{v.raw_read 0x088a, 4, :int4, nil}"
-# puts "runtime=#{v.raw_read 0x08A7, 4, :int4, nil}"
-# puts "power=#{v.raw_read 0xa38f, 1, :percent, 2}"
-
-# puts "mode=#{v.raw_read 0x2323, 1, :byte}"
-# puts "party_mode=#{v.raw_read 0x2330, 1, :byte}"
-# puts "eco_mode=#{v.raw_read 0x2331, 1, :byte}"
-
-puts "system_time=#{ v.raw_read 0x088E, 8, :systime}"
-
-
-puts "hollyday_start=#{}"
-pp v.raw_read 0x2309, 8, nil
-
-puts "hollyday_end=#{}"
-pp v.raw_read 0x2311, 8, nil
+# puts "hollyday_end=#{}"
+# pp v.raw_read 0x2311, :raw8
 
 exit 0
 
