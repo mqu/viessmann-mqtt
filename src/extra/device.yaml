@@ -49,3 +49,97 @@ addr:
   runtime:    [0x08A7, int4]
   power:      [0xA38F, percent, 2]
 
+
+addr_long:
+  norm_room_temp:
+    addr:	0x2306
+    type:	byte
+    unit:	'°'
+    cat:	[temp, setting]
+    # mult:	1   (default to 1)
+    description: indoor temperature setting
+
+  reduce_room_temp:
+    addr:	0x2307
+    type:	byte
+    unit:	'°'
+    cat:	[temp, setting]
+    description: indoor temperature setting for the night and holidays
+
+  mode:
+    addr:	0x2323
+    type:	enum
+    description:  active mode
+    cat:	[setting, mode]
+    enums: [
+     'water heating only', 
+     'continuous reduced', 
+     'constant normal', 
+     'heating and hot water',
+     'heating and hot water', 
+     'Off']
+     
+  # eco mode and party_mode lasts only 12 hours
+  eco_mode:
+    addr:	0x2330
+    type:	bool
+    cat:	[setting, mode]
+    description:  economic mode
+
+  party_mode:
+    addr:	0x2331
+    type:	bool
+    cat:	[setting, mode]
+    description:  party mode 
+
+  indoor_temp:
+    addr:	0x0800
+    type:	short
+    mult:	10
+    unit:	'°'
+    cat:	[temp, info]
+    description:  indoor temperature
+
+  outdoor_temp:
+    addr:	0x0896
+    type:	short
+    mult:	10
+    unit:	'°'
+    cat:	[temp, info]
+    description:  outdoor temperature
+
+  boiler_temp:
+    addr:	0x0802
+    type:	short
+    mult:	10
+    unit:	'°'
+    cat:	[temp, info]
+    description:  boiler temperature
+  
+  device_id:
+    addr:	0x00F8
+    type:	addr
+    cat:	[info, system]
+    description:  device ID
+
+  starts:
+    addr:	0x088A
+    type:	int4
+    cat:	[info, system]
+    description:  number of starts
+
+  runtime:
+    addr:	0x08A7
+    type:	int4
+    cat:	[info, system]
+    unit:	's'
+    description:  working time in seconds
+
+  power:
+    addr:	0xA38F
+    type:	percent
+    mult:	2
+    unit:	'%'
+    cat:	[info, system]
+    description:  heating power in percent
+

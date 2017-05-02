@@ -38,6 +38,7 @@ puts "party_mode=#{v.raw_read 0x2330, :byte}"
 puts "eco_mode=#{v.raw_read 0x2331, :byte}"
 
 puts "system_time=#{ v.raw_read 0x088E, :systime}"
+puts "system_time=#{ v.raw_read 0x088E, :raw8}"
 
 
 # puts "hollyday_start=#{}"

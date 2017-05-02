@@ -21,10 +21,14 @@ class Hash
         self.merge(second, &merger)
     end
 
-	def _symbolize(obj)
-		return obj.inject({}){|memo,(k,v)| memo[k.to_sym] =  _symbolize(v); memo} if obj.is_a? Hash
-		return obj.inject([]){|memo,v    | memo           << _symbolize(v); memo} if obj.is_a? Array
+	def _symbolize(obj, k=nil)
+		
+		return obj if k=='description'
 		return obj if obj.is_a? Fixnum
+
+		return obj.inject({}){|memo,(k,v)| memo[k.to_sym] =  _symbolize(v, k); memo} if obj.is_a? Hash
+		return obj.inject([]){|memo,v    | memo           << _symbolize(v, k); memo} if obj.is_a? Array
+
 		if obj.is_a?(String) && obj.tr(' -','_').downcase.match(/^[a-zA-Z][a-zA-Z_]+/)
 				return obj.tr(' -', '_').downcase.to_sym
 		end	
