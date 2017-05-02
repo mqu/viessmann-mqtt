@@ -5,7 +5,9 @@
 #  - https://openv.wikispaces.com/Ger%C3%A4te (devices lists with device-id)
 #  - https://openv.wikispaces.com/Adressen    (devices addresses)
 # 
-# TODO : support multiple device description, or includes.
+# TODO : 
+# - support multiple device description, or includes.
+# - add ro and rw mode for addresses
 
 device:
   device_id:	0x20CB
@@ -31,29 +33,29 @@ enums:
 addr:
 
   # settings
-  norm_room_temp:    [0x2306, byte, '°']
-  reduce_room_temp:  [0x2307, byte]
+  norm_room_temp:    [0x2306, rw, byte, '°']
+  reduce_room_temp:  [0x2307, rw, byte]
 
-  mode:       [0x2323, enum, mode]
-  party_mode: [0x2330, bool]
-  eco_mode:   [0x2331, bool]
+  mode:              [0x2323, rw, enum, mode]
+  party_mode:        [0x2330, rw, bool]
+  eco_mode:          [0x2331, rw, bool]
 
   # temperatures
-  indoor_temp:     [0x0800, short, 10, '°']
-  outdoor_temp:    [0x0896, short, 10, '°']
-  boiler_temp:     [0x0802, short, 10, '°']
+  indoor_temp:       [0x0800, ro, short, 10, '°']
+  outdoor_temp:      [0x0896, ro, short, 10, '°']
+  boiler_temp:       [0x0802, ro, short, 10, '°']
 
   # info:
-  device_id:  [0x00F8, addr]
-  starts:     [0x088A, int4]
-  runtime:    [0x08A7, int4]
-  power:      [0xA38F, percent, 2]
+  device_id:  [0x00F8, ro, addr]
+  starts:     [0x088A, ro, int4]
+  runtime:    [0x08A7, ro, int4]
+  power:      [0xA38F, ro, percent, 2]
 
 
 addr_long:
   norm_room_temp:
     addr:	0x2306
-    type:	byte
+    type:	byte,rw
     unit:	'°'
     cat:	[temp, setting]
     # mult:	1   (default to 1)
@@ -61,14 +63,14 @@ addr_long:
 
   reduce_room_temp:
     addr:	0x2307
-    type:	byte
+    type:	byte,rw
     unit:	'°'
     cat:	[temp, setting]
     description: indoor temperature setting for the night and holidays
 
   mode:
     addr:	0x2323
-    type:	enum
+    type:	enum, rw
     description:  active mode
     cat:	[setting, mode]
     enums: [
@@ -82,19 +84,19 @@ addr_long:
   # eco mode and party_mode lasts only 12 hours
   eco_mode:
     addr:	0x2330
-    type:	bool
+    type:	bool, rw
     cat:	[setting, mode]
     description:  economic mode
 
   party_mode:
     addr:	0x2331
-    type:	bool
+    type:	bool,rw
     cat:	[setting, mode]
     description:  party mode 
 
   indoor_temp:
     addr:	0x0800
-    type:	short
+    type:	short,ro
     mult:	10
     unit:	'°'
     cat:	[temp, info]
@@ -102,7 +104,7 @@ addr_long:
 
   outdoor_temp:
     addr:	0x0896
-    type:	short
+    type:	short,ro
     mult:	10
     unit:	'°'
     cat:	[temp, info]
@@ -110,7 +112,7 @@ addr_long:
 
   boiler_temp:
     addr:	0x0802
-    type:	short
+    type:	short,ro
     mult:	10
     unit:	'°'
     cat:	[temp, info]
@@ -118,26 +120,26 @@ addr_long:
   
   device_id:
     addr:	0x00F8
-    type:	addr
+    type:	addr,ro
     cat:	[info, system]
     description:  device ID
 
   starts:
     addr:	0x088A
-    type:	int4
+    type:	int4,ro
     cat:	[info, system]
     description:  number of starts
 
   runtime:
     addr:	0x08A7
-    type:	int4
+    type:	int4,ro
     cat:	[info, system]
     unit:	's'
     description:  working time in seconds
 
   power:
     addr:	0xA38F
-    type:	percent
+    type:	percent,ro
     mult:	2
     unit:	'%'
     cat:	[info, system]

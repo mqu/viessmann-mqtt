@@ -7,12 +7,12 @@ require 'yaml'
 def parse_yaml file
 
 	begin
-	  content=YAML.load(File.open(file))
+	  	return YAML.load(File.open(file))
 	rescue ArgumentError => e
 	  puts "Could not parse YAML file (#{file}: #{e.message}"
 	  exit 0
 	end
-	return content
+
 end
 
 class Hash
