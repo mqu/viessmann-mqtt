@@ -56,6 +56,7 @@ addr_long:
   norm_room_temp:
     addr:	0x2306
     type:	byte,rw
+    range: [3, 37]
     unit:	'°'
     cat:	[temp, setting]
     # mult:	1   (default to 1)
@@ -64,6 +65,7 @@ addr_long:
   reduce_room_temp:
     addr:	0x2307
     type:	byte,rw
+    range: [3, 37]
     unit:	'°'
     cat:	[temp, setting]
     description: indoor temperature setting for the night and holidays
@@ -72,6 +74,7 @@ addr_long:
     addr:	0x2323
     type:	enum, rw
     description:  active mode
+    range: [0, 4]
     cat:	[setting, mode]
     enums: [
      'water heating only', 
@@ -85,12 +88,14 @@ addr_long:
   eco_mode:
     addr:	0x2330
     type:	bool, rw
+    range: [0, 1]
     cat:	[setting, mode]
     description:  economic mode
 
   party_mode:
     addr:	0x2331
     type:	bool,rw
+    range: [0, 1]
     cat:	[setting, mode]
     description:  party mode 
 
@@ -105,6 +110,7 @@ addr_long:
   outdoor_temp:
     addr:	0x0896
     type:	short,ro
+    range: [-60, 60]
     mult:	10
     unit:	'°'
     cat:	[temp, info]
@@ -113,6 +119,7 @@ addr_long:
   boiler_temp:
     addr:	0x0802
     type:	short,ro
+    range: [0, 150]
     mult:	10
     unit:	'°'
     cat:	[temp, info]
@@ -127,12 +134,14 @@ addr_long:
   starts:
     addr:	0x088A
     type:	int4,ro
+    range: [0, 1150000]
     cat:	[info, system]
     description:  number of starts
 
   runtime:
     addr:	0x08A7
     type:	int4,ro
+    range: [0, 1150000]
     cat:	[info, system]
     unit:	's'
     description:  working time in seconds
@@ -140,6 +149,7 @@ addr_long:
   power:
     addr:	0xA38F
     type:	percent,ro
+    range: [0, 100]
     mult:	2
     unit:	'%'
     cat:	[info, system]
