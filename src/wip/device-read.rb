@@ -15,6 +15,73 @@ def parse_yaml file
 
 end
 
+class ViessmanCommand
+
+	def initialize name, opts
+		@name=name
+		@opts=opts
+	end
+
+	def self.to_hex val, digits=4
+		sprintf("0x%0#{digits}X", val)
+	end
+
+	# mandatory field
+	def addr
+		throw "mandatory field 'addr' for #{@name} command" unless  @opts.key? :addr
+		return @opts[:addr]
+	end
+
+	def type
+		throw "mandatory field 'type' for #{@name} command" unless  @opts.key? :type
+		return @opts[:type][0]
+	end
+
+	def mode default=:ro
+		throw "mandatory field 'mode' for #{@name} command" unless  @opts.key? :type
+		return @opts[:type][1]
+	end
+
+	def mult default=1
+		return @opts[:mult] if @opts.key? :mult
+		return default
+	end
+
+	# commands categories
+	def cat default=[]
+		return @opts[:cat] if @opts.key? :cat
+		return default
+	end
+	alias category cat
+
+	def unit default=''
+		return @opts[:unit] if @opts.key? :unit
+		return default
+	end
+
+	def description default=''
+		return @opts[:description] if @opts.key? :description
+		return default
+	end
+
+	def path default=nil
+		throw "mandatory field 'path' for #{@name} command" unless  @opts.key? :type
+		return @opts[:path] if @opts.key? :path
+	end
+
+	def in_range? value
+		return self.range.include? value
+	end
+
+	def range default=[]
+		return Range.new(@opts[:range][0], @opts[:range][1]) if @opts.key? :range
+		return default
+	end
+
+	# protected
+
+end
+
 class Hash
     def deep_merge(second)
         merger = proc { |key, v1, v2| Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2 }
@@ -43,5 +110,13 @@ end
 file='device.yaml'
 conf=parse_yaml(file).symbolize
 
-pp conf
-pp conf[:addr][:mode]
+commands={}
+
+conf[:addr].each do |k,v|
+	commands[k]=ViessmanCommand.new(k, v)
+end
+
+commands.each do |cmd, command|
+	puts "#{cmd}:\n"
+	pp command.path
+end
