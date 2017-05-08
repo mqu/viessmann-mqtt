@@ -63,6 +63,8 @@ class ViessmannRawTcpClient
 		case type
 			when :bool
 				return v[0].to_i
+			when :enum
+				return v[0].to_i
 			when :percent
 				return v[0].to_i
 			when :byte

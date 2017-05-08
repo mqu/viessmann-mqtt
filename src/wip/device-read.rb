@@ -10,18 +10,6 @@ require 'yaml'
 
 require 'viessman-raw-read.rb'
 
-
-def parse_yaml file
-
-	begin
-	  	return YAML.load(File.open(file))
-	rescue ArgumentError => e
-	  puts "Could not parse YAML file (#{file}: #{e.message}"
-	  exit 0
-	end
-
-end
-
 class ViessmanCommand
 
 	def initialize name, opts
@@ -92,7 +80,11 @@ class ViessmanCommand
 	end
 
 	def raw_read viessmann
-		return viessmann.raw_read self.addr, self.type, self.mult
+		if self.type==:enum
+			return self.enums[viessmann.raw_read self.addr, self.type]
+		else
+			return viessmann.raw_read self.addr, self.type, self.mult
+		end
 	end
 
 	# protected
@@ -124,20 +116,44 @@ class Hash
     end
 end
 
-file='device.yaml'
-conf=parse_yaml(file).symbolize
+class Viessman
 
-commands={}
+	def initialize file
 
-conf[:addr].each do |k,v|
-	commands[k]=ViessmanCommand.new(k, v)
+		# handler to vitalk raw read and get
+		@v=ViessmannRawTcpClient.new
+		
+		# 
+		@conf=parse_yaml(file).symbolize
+
+		@commands={}
+
+		@conf[:addr].each do |k,v|
+			@commands[k]=ViessmanCommand.new(k, v)
+		end
+	end
+	def method_missing(sym, *args)
+		return @commands[sym].raw_read(@v) if @commands.key? sym
+		throw "error : unkown command(method) (#{sym})"
+	end
+
+	def parse_yaml file
+		begin
+			return YAML.load(File.open(file))
+		rescue ArgumentError => e
+		  puts "Could not parse YAML file (#{file}: #{e.message}"
+		  exit 0
+		end
+	end
+
+	def methods
+		@commands.keys
+	end
 end
 
-# pp commands[:mode].enums
+v=Viessman.new 'device.yaml'
+pp v.power
+pp v.mode
+pp v.indoor_temp
+# pp v.methods
 
-viessmann=ViessmannRawTcpClient.new
-
-commands.each do |k,v|
-	pp k
-	pp v.raw_read viessmann unless v.type==:enum
-end
