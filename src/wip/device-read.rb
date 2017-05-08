@@ -1,8 +1,15 @@
 #!/usr/bin/ruby
 
+libdir="../../lib"
+$LOAD_PATH.unshift libdir
+
+
 # read device.yaml
 require 'pp'
 require 'yaml'
+
+require 'viessman-raw-read.rb'
+
 
 def parse_yaml file
 
@@ -59,6 +66,12 @@ class ViessmanCommand
 		return default
 	end
 
+	def enums default=[]
+		return @opts[:enums] if @opts.key? :enums
+		return default
+	end
+
+
 	def description default=''
 		return @opts[:description] if @opts.key? :description
 		return default
@@ -76,6 +89,10 @@ class ViessmanCommand
 	def range default=[]
 		return Range.new(@opts[:range][0], @opts[:range][1]) if @opts.key? :range
 		return default
+	end
+
+	def raw_read viessmann
+		return viessmann.raw_read self.addr, self.type, self.mult
 	end
 
 	# protected
@@ -116,7 +133,11 @@ conf[:addr].each do |k,v|
 	commands[k]=ViessmanCommand.new(k, v)
 end
 
-commands.each do |cmd, command|
-	puts "#{cmd}:\n"
-	pp command.path
+# pp commands[:mode].enums
+
+viessmann=ViessmannRawTcpClient.new
+
+commands.each do |k,v|
+	pp k
+	pp v.raw_read viessmann unless v.type==:enum
 end

@@ -27,33 +27,7 @@ config:
     
   # supported types
   types: [byte, short, int4, bool, percent, addr, systime, enum]
-  
-# field formats :
-# name: [address, type, multiplier, 'unit']
-# name: [address, enum-type, enum-name]
-# supported types : :byte, :short, :int4, :bool, :percent, :addr, :systime ; todo :enum.
-# multiplier : default 1 ; temperature are expressed in 1/10° ; so we need to correct this.
 
-addr_short:
-
-  # settings
-  norm_room_temp:    [0x2306, rw, byte, '°']
-  reduce_room_temp:  [0x2307, rw, byte]
-
-  mode:              [0x2323, rw, enum, mode]
-  party_mode:        [0x2330, rw, bool]
-  eco_mode:          [0x2331, rw, bool]
-
-  # temperatures
-  indoor_temp:       [0x0800, ro, short, 10, '°']
-  outdoor_temp:      [0x0896, ro, short, 10, '°']
-  boiler_temp:       [0x0802, ro, short, 10, '°']
-
-  # info:
-  device_id:  [0x00F8, ro, addr]
-  starts:     [0x088A, ro, int4]
-  runtime:    [0x08A7, ro, int4]
-  power:      [0xA38F, ro, percent, 2]
 
 # fields description :
 # cat : categories
@@ -93,7 +67,7 @@ addr:
      'constant normal', 
      'heating and hot water',
      'heating and hot water', 
-     'Off']
+     'off']
      
   # eco mode and party_mode lasts only 12 hours
   eco_mode:

@@ -61,6 +61,10 @@ class ViessmannRawTcpClient
 		v=v.gsub('$','').split(';').collect{|x| x=x.to_i}
 
 		case type
+			when :bool
+				return v[0].to_i
+			when :percent
+				return v[0].to_i
 			when :byte
 				return v[0].ord*mult
 			when :addr
