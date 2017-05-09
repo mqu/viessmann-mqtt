@@ -146,14 +146,28 @@ class Viessman
 		end
 	end
 
+	def get key
+		throw "error" unless @commands.key? key
+		return @commands[key].raw_read(@v)
+	end
+
+	def cmd key
+		throw "error" unless @commands.key? key
+		return @commands[key]
+	end
+
 	def methods
 		@commands.keys
 	end
 end
 
-v=Viessman.new 'device.yaml'
+v=Viessman.new 'device-20CB.yaml'
+pp v.device_id
 pp v.power
 pp v.mode
 pp v.indoor_temp
-# pp v.methods
 
+pp v.get(:indoor_temp)
+v.methods.each do |cmd|
+  puts "#{sprintf("0x%04X", v.cmd(cmd).addr)} : #{cmd} : #{v.get cmd}"
+end
