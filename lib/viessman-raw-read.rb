@@ -2,10 +2,22 @@
 
 require 'viessman-sock-reader'
 
+# http://stackoverflow.com/questions/3028243/check-if-ruby-object-is-a-boolean
+class Object
+  def boolean?
+    self.is_a?(TrueClass) || self.is_a?(FalseClass) 
+  end
+end
+
+
 class ViessmannRawTcpClient
 
 	def initialize
 		@v=ViessmannSockReader.new
+	end
+
+	def addr_to_hex addr, digits=4
+		sprintf("0x%0#{digits}X", addr)
 	end
 
 	def type_to_len type
@@ -27,13 +39,35 @@ class ViessmannRawTcpClient
 	def cmd cmd
 		# puts "cmd : " + cmd
 		@v.puts cmd.to_s
-		@v.gets
+		v=@v.gets
+		# pp v
+		# v
 	end
 
     # rs <addr> <value> - Raw Set Parameter by address 
-	def raw_set value, addr, type
+	def raw_write addr, type, value, mult=nil
+		
+		value=value*mult if mult!=nil
+
+		values=[]
+		case type
+			when :bool
+				value=value ? 1 : 0 if value.boolean?
+				value=(value==0)?0:1 if value.is_a? Fixnum
+				values << value
+			
+			when :byte
+				values  << value.to_i
+
+			when :short
+				values=[value].pack('s>').unpack('C*').reverse
+			else
+				throw "raw_write() : unknown type : #{type.to_s}"
+		end
 		addr = sprintf("0x%04X",addr) if addr.is_a? Fixnum
-		v=self.cmd sprintf("rs %s %s", addr.to_s, len.to_s)
+		v=self.cmd sprintf("rs %s %s;", addr, values.join(';'))
+		return true if v=='$OK'
+		return false
 	end
 
 	def systime v
@@ -62,7 +96,7 @@ class ViessmannRawTcpClient
 
 		case type
 			when :bool
-				return v[0].to_i
+				return v[0].to_i==0
 			when :enum
 				return v[0].to_i
 			when :percent

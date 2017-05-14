@@ -4,7 +4,7 @@
 # links : 
 #  - https://openv.wikispaces.com/Ger%C3%A4te (devices lists with device-id)
 #  - https://openv.wikispaces.com/Adressen    (devices addresses)
-# 
+#  - 0x20CB : https://sourceforge.net/p/vcontrold/code/HEAD/tree/branches/vcontrold_fn_ipv6/xml-32/xml_p300/vito.xml
 # TODO : 
 # - support multiple device description, or includes.
 # - add ro and rw mode for addresses
@@ -59,14 +59,16 @@ addr:
     range: [0, 4]
     path:	"/settings/power/mode"
     cat:	[setting, mode]
+
     enums: [
-     'water heating only', 
-     'continuous reduced', 
-     'constant normal', 
-     'heating and hot water',
-     'heating and hot water', 
-     'off']
-     
+     'standby',         # 0: standby mode
+     'hot water',       # 1: hot water only (DHW)
+     'mixte',           # 2: central heating + hot water
+     'perm_reduced',    # 3: external program is displayed on controler with moon
+     'perm_normal'      # 4: external program + sun
+     # 'fixme',         # 5: hot water and heating
+     ]
+
   # eco mode and party_mode lasts only 12 hours
   eco_mode:
     addr:	0x2330

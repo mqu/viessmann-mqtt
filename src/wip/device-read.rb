@@ -21,6 +21,10 @@ class ViessmanCommand
 		sprintf("0x%0#{digits}X", val)
 	end
 
+	def name
+		@name
+	end
+	
 	# mandatory field
 	def addr
 		throw "mandatory field 'addr' for #{@name} command" unless  @opts.key? :addr
@@ -87,9 +91,18 @@ class ViessmanCommand
 		end
 	end
 
-	# protected
+	# fixme
+	def to_text v
+	  return sprintf("0x%04X : %s (%s) : %s", 
+			   self.addr, 
+			   self.mode,
+			   self.type,
+			   self.raw_read(v)
+				)
+	end
 
 end
+
 
 class Hash
     def deep_merge(second)
@@ -152,22 +165,85 @@ class Viessman
 	end
 
 	def cmd key
-		throw "error" unless @commands.key? key
+		pp key
+		throw "cmd(): error : unknown key value #" unless @commands.key? key
 		return @commands[key]
 	end
 
 	def methods
 		@commands.keys
 	end
+	
+	def raw_read addr, type, mult=nil
+		return @v.raw_read(addr, type.to_sym) if mult==nil
+		return @v.raw_read(addr, type.to_sym)/mult
+	end
+
+	def raw_write addr, type, value, mult=nil
+		return @v.raw_write(addr, type.to_sym, value) if mult==nil
+		return @v.raw_write(addr, type.to_sym, value*mult)
+	end
+	
+	def each
+		@commands.each do |k,cmd|
+			yield cmd
+		end
+	end
 end
 
 v=Viessman.new 'device-20CB.yaml'
-pp v.device_id
-pp v.power
-pp v.mode
-pp v.indoor_temp
 
-pp v.get(:indoor_temp)
-v.methods.each do |cmd|
-  puts "#{sprintf("0x%04X", v.cmd(cmd).addr)} : #{cmd} : #{v.get cmd}"
+# outdoor_temp=#{v.raw_read 0x0800, :short, 10}"
+# pp v.raw_read 0x0800, :byte, 10.0
+# pp v.raw_read '0x0800', 'byte', 10.0
+
+# normal room temp
+# pp v.raw_read 0x23060, 'byte', 10.0
+
+#  curve_slope:
+# pp v.raw_read 0x27D3, :short, 10
+# pp v.raw_write 0x27D3, :short, 1.1, 10
+# pp v.raw_read 0x27D3, :short, 10
+
+#  reduce_room_temp:
+#    addr:	0x2307
+#    type:	[byte,rw]
+# pp v.raw_read 0x2307, :byte
+# pp v.raw_write 0x2307, :byte, 13
+# pp v.raw_read 0x2307, :byte
+
+# eco_mode : 0x2331
+# pp v.raw_read 0x2331, :byte
+
+# party_mode : 0x2330
+# pp v.raw_read 0x2330, :byte
+# pp v.raw_write 0x2330, :bool, true
+# pp v.raw_read 0x2330, :byte
+
+# mode
+#pp pp v.raw_read 0x2323, :byte
+# pp pp v.raw_write 0x2323, :byte, 2
+# pp pp v.raw_read 0x2323, :byte
+
+
+# device-id
+# puts "device_id=#{v.raw_read 0x00F8, :addr}"
+
+# for earch commands ...
+v.each do |cmd|
+  # FIXME 
+  # puts cmd.to_text(v)
+
+  puts sprintf("0x%04X : %s (%s) : %s : %s\n", 
+           cmd.addr, 
+           cmd.mode,
+           cmd.type,
+           cmd.name,
+           v.get(cmd.name)
+           )
+
+          
 end
+
+exit 0
+
