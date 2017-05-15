@@ -231,8 +231,6 @@ v=Viessman.new 'device-20CB.yaml'
 
 # for earch commands ...
 v.each do |cmd|
-  # FIXME 
-  # puts cmd.to_text(v)
 
   puts sprintf("0x%04X : %s (%s) : %s : %s\n", 
            cmd.addr, 
@@ -241,8 +239,7 @@ v.each do |cmd|
            cmd.name,
            v.get(cmd.name)
            )
-
-          
+   
 end
 
 exit 0

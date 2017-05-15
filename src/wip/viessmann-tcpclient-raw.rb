@@ -114,6 +114,14 @@ exit 0
 # En lecture faire une conversion base 10 vers hexa
 # En écriture faire une conversion hexa vers base 10
 # 
+# holiday/start
+# $rg 0x2309 8
+# 25;112;1;1;4;0;0;0;
+# holiday/end
+# $rg 0x2311 8
+# 25;112;1;1;4;0;0;0;
+
+
 # Je ne pense pas que je câblerai la fonction sous Vitalk ou en PHP, car j'utilise de moins en moins l'application web.
 # 
 # Pour changer la date et l'heure sur la chaudière, on peut le faire assez facilement. Un simple script en python appelé par crontab permet de synchroniser l'heure, adresse 088E, 8 bytes (YMDxhms)

@@ -1,3 +1,4 @@
+docs/extra/*
 var/pid/*
 var/lib/viessmann.sqlite
 log/*
