@@ -229,6 +229,23 @@ v=Viessman.new 'device-20CB.yaml'
 # device-id
 # puts "device_id=#{v.raw_read 0x00F8, :addr}"
 
+# https://github.com/smbunn/Viessmann-Control/blob/master/vito-old.xml#L294
+# https://sourceforge.net/p/vcontrold/code/HEAD/tree/branches/vcontrold_fn_ipv6/xml-32/xml_p300/vito.xml#l1072
+
+list= [
+ [0x2000, 0x2008, 0x2010, 0x2018, 0x2020, 0x2028, 0x2030],
+ [0x2100, 0x2108, 0x2110, 0x2118, 0x2120, 0x2128, 0x2130],
+ [0x2200, 0x2208, 0x2210, 0x2218, 0x2220, 0x2228, 0x2230]
+]
+
+list.each do |l|
+  l.each do |addr|
+     pp v.raw_read addr, :raw8
+  end
+end
+exit 0
+
+
 # for earch commands ...
 v.each do |cmd|
 

@@ -133,6 +133,6 @@ exit 0
 # Pour ceux qui paramètrent codage 1 ou 2 à partir de l'application, pour la puissance bruleur vous avez l'adresse mémoire 8832, sur 1 bytes (0 à 100).
 
 # plages d'adresses pour plages horaires :
-# 2000/8, 2230/8
+# 2000/8 ... 2230/8
 # php-script : http://easydomoticz.com/forum/viewtopic.php?f=17&t=1955&start=220
 # https://homematic-forum.de/forum/viewtopic.php?f=48&t=21640&start=30

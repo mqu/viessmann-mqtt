@@ -292,14 +292,14 @@ addr:
 # FIXME : to be done
 #   holiday_start_time
 #     addr:	0x2309
-#     type:	[systime, rw]
+#     type:	[datetime, rw]
 #     path:	"/setting/holliday/start"
 #     cat:	[setting, system, time]
 #     description:  holliday start date-time / heater running in eco mode
 # 
 #   holiday_end_time
 #     addr:	0x2311
-#     type:	[systime, rw]
+#     type:	[datetime, rw]
 #     path:	"/setting/holliday/start"
 #     cat:	[setting, system, time]
 #     description:  holliday start date-time / heater running in eco mode
