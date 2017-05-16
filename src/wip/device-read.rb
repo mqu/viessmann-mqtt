@@ -131,12 +131,14 @@ end
 
 class Viessman
 
-	def initialize file
+	def initialize list
 
 		# handler to vitalk raw read and get
 		@v=ViessmannRawTcpClient.new
 		
-		# 
+		file=self.find_file list
+		throw "no config file for device" unless file
+
 		@conf=parse_yaml(file).symbolize
 
 		@commands={}
@@ -145,9 +147,31 @@ class Viessman
 			@commands[k]=ViessmanCommand.new(k, v)
 		end
 	end
+
 	def method_missing(sym, *args)
 		return @commands[sym].raw_read(@v) if @commands.key? sym
 		throw "error : unkown command(method) (#{sym})"
+	end
+
+	# try to find file in list
+	# supported format :
+	# device-*.yaml
+	# plain file name
+	# device-ID.yaml ; replacing device-id by ID
+	def find_file list
+		id=self.device_id.sub(/0x/,'').upcase
+		list.each do |f|
+			return f if File.exists? f
+
+			if f =~ /.*ID.*/
+				return f.sub(/ID/, id)
+			end
+			Dir.glob(f).each do |ff|
+				pp ff
+				return ff
+			end
+		end
+		return nil
 	end
 
 	def parse_yaml file
@@ -174,6 +198,10 @@ class Viessman
 		@commands.keys
 	end
 	
+	def device_id addr=0x00F8
+		@v.raw_read addr, :addr
+	end
+
 	def raw_read addr, type, mult=nil
 		return @v.raw_read(addr, type.to_sym) if mult==nil
 		return @v.raw_read(addr, type.to_sym)/mult
@@ -191,7 +219,9 @@ class Viessman
 	end
 end
 
-v=Viessman.new 'device-20CB.yaml'
+# try to load from any file, in this order
+# replacing ID by device-id
+v=Viessman.new ['device-ID.yaml', 'device-*.yaml', 'device.yaml']
 
 # outdoor_temp=#{v.raw_read 0x0800, :short, 10}"
 # pp v.raw_read 0x0800, :byte, 10.0
