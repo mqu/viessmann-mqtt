@@ -90,7 +90,8 @@ misc :
 ## links
 * vitalk : https://github.com/mqu/vitalk : english port and raw read and put
 * rvitalk : my first P300 protocol implementation in Ruby (buggy) : https://gist.github.com/mqu/9519e39ccc474f111ffb
-* Viessmann open-source community : http://openv.wikispaces.com/ with :
-  * Optolink TTL-USB interface : http://openv.wikispaces.com/Bauanleitung+3.3V+TTL 
-  * Wireless interface : http://openv.wikispaces.com/Bauanleitung+ESP8266 
+* Viessmann : https://github.com/openv/openv
+  * old links open-source community : http://openv.wikispaces.com/ with :
+    * Optolink TTL-USB interface : http://openv.wikispaces.com/Bauanleitung+3.3V+TTL 
+    * Wireless interface : http://openv.wikispaces.com/Bauanleitung+ESP8266 
 
