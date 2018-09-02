@@ -3,7 +3,8 @@
 
 # links : 
 #  - https://openv.wikispaces.com/Ger%C3%A4te (devices lists with device-id)
-#  - https://openv.wikispaces.com/Adressen    (devices addresses)
+#  - https://github.com/openv/openv -> new address for OpenV forum and code (wikispaces.com will shutdown shortly
+#  - https://github.com/openv/openv/wiki/Adressen    (devices addresses)
 #  - 0x20CB : https://sourceforge.net/p/vcontrold/code/HEAD/tree/branches/vcontrold_fn_ipv6/xml-32/xml_p300/vito.xml
 # TODO : 
 # - support multiple device description, or includes.
