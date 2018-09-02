@@ -114,10 +114,7 @@ at_exit do
 	# puts "script exiting ... ; time: " + Time.now.strftime("%d/%m/%Y %H:%M\n")
 end
 
-mqtt_client = Mqtt.new @config[:mqtt]
-
-mqtt_client.connect() do |mqtt|
-   puts "connected"
+def main mqtt
 
 	# MQTT base topic; mqtt.publish topic will add this based name to topic.
 	mqtt.base=sprintf('%s/%s/objects/%s', 
@@ -229,11 +226,29 @@ mqtt_client.connect() do |mqtt|
 		end
 	}
 
-
 	while true do
-
 		# puts "th1 is runnging"
 		sleep 1
-
 	end   
+end
+
+mqtt_client = Mqtt.new @config[:mqtt]
+
+while true do
+	begin
+		mqtt_client.connect() do |mqtt|
+			puts "connected to MQTT server"
+			main mqtt
+		end 
+	rescue MQTT::ProtocolException, Errno::ECONNREFUSED  => e # may receive MQTT::ProtocolException ; Errno::ECONNREFUSED
+		puts "exception from MQTT ; retrying ..."
+		puts e.to_s
+		sleep 5
+		# retry to connect and process
+		retry
+	end
+	
+	# we may never get here.
+	puts "disconnected from MQTT ; trying to reconnect"
+	sleep 5
 end

@@ -119,9 +119,8 @@ opts={
 	}
 }
 
-client.connect() do |mqtt|
-   puts "connected"
- 
+def main mqtt, cayenne, opts
+
    base=sprintf('v1/%s/objects/%s', opts[:location], opts[:device][:name])
    puts "base=#{base}\n"
 
@@ -158,7 +157,6 @@ client.connect() do |mqtt|
 		# data/temp/boiler
 		# data/temp/gaz
 		# data/temp/hot-water
-
 
 		case topic
 
@@ -204,7 +202,6 @@ client.connect() do |mqtt|
 			when '/data/stats/kwh/this-month'
 				cayenne.publish_channel(16, :power, message.to_s)
 
-		
 			else
 				# puts "topic unknown or unmanaged ... #{topic} : #{message.to_s}"
 		end
@@ -215,4 +212,39 @@ client.connect() do |mqtt|
 	timer.sleep 60
    end
    
+end
+
+while true do
+	begin
+		client.connect() do |mqtt|
+			puts "connected to MQTT server"
+			main mqtt, cayenne, opts
+		end 
+	rescue MQTT::ProtocolException, Errno::ECONNREFUSED  => e # may receive MQTT::ProtocolException ; Errno::ECONNREFUSED
+
+		client = MQTT::Client.new
+		client.host = @config[:mqtt][:host]
+		client.port = @config[:mqtt][:port]
+		client.username = @config[:mqtt][:user]
+		client.password = @config[:mqtt][:password]
+
+		puts "exception from MQTT ; sleeping and going to retry ..."
+		puts e.to_s
+		pp e
+		sleep 5
+		# retry to connect and process
+		retry
+	end
+	
+	# we may never get here.
+	puts "disconnected from MQTT ; sleeping and going to retry"
+	sleep 5
+end
+
+
+exit 0
+
+client.connect() do |mqtt|
+	puts "connected"
+	main mqtt, cayenne, opts
 end

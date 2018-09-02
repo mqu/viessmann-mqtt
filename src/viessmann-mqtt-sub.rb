@@ -34,10 +34,7 @@ opts={
 	}
 }
 
-
-client.connect() do |mqtt|
-   puts "connected"
- 
+def main mqtt, opts, v
    base=sprintf('v1/%s/objects/%s', opts[:location], opts[:device][:name])
    puts "base=#{base}\n"
 
@@ -108,5 +105,32 @@ client.connect() do |mqtt|
 
 	timer.sleep 60
    end
-   
+end
+
+
+while true do
+	begin
+		client.connect() do |mqtt|
+			puts "connected to MQTT server"
+			main mqtt, opts, v
+		end 
+	rescue MQTT::ProtocolException, Errno::ECONNREFUSED  => e # may receive MQTT::ProtocolException ; Errno::ECONNREFUSED
+		puts "exception from MQTT ; retrying ..."
+		puts e.to_s
+		pp e
+		sleep 5
+		# retry to connect and process
+		retry
+	end
+	
+	# we may never get here.
+	puts "disconnected from MQTT ; trying to reconnect"
+	sleep 5
+end
+
+exit 0
+
+client.connect() do |mqtt|
+   puts "connected"
+   main mqtt, opts, v
 end
